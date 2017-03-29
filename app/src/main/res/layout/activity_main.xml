@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="5dp"
+    tools:context="com.example.hilary.foodycook.MainActivity">
+
+
+        <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/foodForm"
+            android:layout_below="@+id/imageview"
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:id="@+id/photoImage"
+               android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="take photo" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/priceLabel"
+                android:layout_below="@+id/photoImage"
+                android:text="Price"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"/>
+            <EditText
+                android:id="@+id/price"
+                android:layout_below="@+id/priceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="e.g 350"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/titleLabel"
+                android:layout_below="@+id/price"
+                android:text="TItle"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"/>
+            <EditText
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titleLabel"
+                android:hint="e.g Chiken masala"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/descriptionLabel"
+                android:layout_below="@+id/title"
+                android:text="Description"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"/>
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/descriptionLabel"
+                android:hint="e.g Lorem Ipsum"
+                android:layout_centerHorizontal="true"/>
+
+
+        </RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/postButton"
+        android:text="post food"
+        android:layout_below="@+id/foodForm"
+
+        android:layout_centerHorizontal="true"/>
+
+
+
+</RelativeLayout>
