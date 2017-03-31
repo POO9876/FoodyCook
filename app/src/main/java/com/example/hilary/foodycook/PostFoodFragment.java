@@ -39,10 +39,13 @@ public class PostFoodFragment extends Fragment{
     EditText title;
     EditText description;
     EditText price;
-    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference mConditionReference = mRootRef.child("foods");
+    DatabaseReference mRootRef;
+    DatabaseReference mFoodReference;
+    MainActivity mainActivity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mainActivity = (MainActivity) getActivity();
+        mFoodReference = mainActivity.mRootRef.child("foods");
 
         rootView = inflater.inflate(R.layout.post_food_fragment, container, false);
 
@@ -129,12 +132,12 @@ public class PostFoodFragment extends Fragment{
 
        // mConditionReference.child("one").setValue(food);
 
-        reference = mConditionReference.push();
+        reference = mFoodReference.push();
         reference.setValue(food);
 
-        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        //Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
-        encodeBitmapAndSaveToFirebase(bitmap, reference);
+        //encodeBitmapAndSaveToFirebase(bitmap, reference);
 
     }
     public void encodeBitmapAndSaveToFirebase(Bitmap bitmap, DatabaseReference reference) {
