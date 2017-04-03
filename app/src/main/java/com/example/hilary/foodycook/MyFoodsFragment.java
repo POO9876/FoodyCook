@@ -1,5 +1,6 @@
 package com.example.hilary.foodycook;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,9 +12,12 @@ import android.view.ViewGroup;
 
 import com.example.hilary.foodycook.adapters.MyFirebaseAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.parceler.Parcels;
 
@@ -30,14 +34,36 @@ public class MyFoodsFragment extends Fragment {
 
     View rootView2;
     RecyclerView mRecyclerView;
-    FirebaseRecyclerAdapter mAdapter;
+
     DatabaseReference mRootRef;
     DatabaseReference mFoodReference;
-
     MyFirebaseAdapter mMyAdapter;
-    private ArrayList<Food> mAdapterItems;
-    private ArrayList<String> mAdapterKeys;
-    private Query mQuery;
+    ArrayList<Food> mAdapterItems;
+    ArrayList<String> mAdapterKeys;
+    Query mQuery;
+    ProgressDialog progressDialog;
+
+
+    // create boolean for fetching data
+    private boolean isViewShown = false;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+        super.setUserVisibleHint(isVisibleToUser);
+        Bundle bundle =  this.getArguments();
+        String fragName = bundle.getString("TAG");
+
+
+        if (getView() != null && fragName == "food_list_fragment") {
+            isViewShown = true;
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Loading ...");
+            progressDialog.show();
+        } else {
+            isViewShown = false;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,15 +71,34 @@ public class MyFoodsFragment extends Fragment {
 
         mFoodReference = ((MainActivity ) this.getActivity()).mRootRef.child("foods");
         rootView2 = inflater.inflate(R.layout.my_foods_fragment, container, false);
+
         handleInstanceState(savedInstanceState);
+
         setupFirebase();
+
         setupRecyclerview();
 
 
         return rootView2;
     }
+
     private void setupFirebase() {
+
+
         mQuery = mFoodReference.limitToLast(10);
+        mQuery.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                progressDialog.dismiss();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 //        Firebase.setAndroidContext(this);
 //        String firebaseLocation = getResources().getString(R.string.firebase_location);
@@ -72,16 +117,12 @@ public class MyFoodsFragment extends Fragment {
     }
     private void setupRecyclerview() {
         mRecyclerView = (RecyclerView) rootView2.findViewById(R.id.foodListRecyclerView);
-        mMyAdapter = new MyFirebaseAdapter(mQuery, Food.class, mAdapterItems, mAdapterKeys);
+        mMyAdapter = new MyFirebaseAdapter(mQuery, Food.class, mAdapterItems, mAdapterKeys, getActivity());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         mRecyclerView.setAdapter(mMyAdapter);
+
     };
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mAdapter.cleanup();
-    }
 }

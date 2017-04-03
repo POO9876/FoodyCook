@@ -1,5 +1,6 @@
 package com.example.hilary.foodycook.adapters;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -28,6 +29,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 return tab1;
             case 1:
                 MyFoodsFragment tab2 = new MyFoodsFragment();
+                final Bundle args = new Bundle();
+                args.putString("TAG", "food_list_fragment");
+                tab2.setArguments(args);
                 return tab2;
 
             default:

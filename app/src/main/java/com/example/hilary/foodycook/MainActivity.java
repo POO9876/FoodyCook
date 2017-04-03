@@ -1,5 +1,6 @@
 package com.example.hilary.foodycook;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,11 +35,13 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseReference mRootRef;
+    ProgressDialog progressDialog;
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    progressDialog = new ProgressDialog(this);
     mRootRef = FirebaseDatabase.getInstance().getReference();
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -54,10 +57,13 @@ protected void onCreate(Bundle savedInstanceState) {
             (getSupportFragmentManager(), tabLayout.getTabCount());
     viewPager.setAdapter(adapter);
     viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
     tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             viewPager.setCurrentItem(tab.getPosition());
+
+
         }
 
         @Override
