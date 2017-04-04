@@ -35,35 +35,18 @@ public class MyFoodsFragment extends Fragment {
     View rootView2;
     RecyclerView mRecyclerView;
 
-    DatabaseReference mRootRef;
     DatabaseReference mFoodReference;
     MyFirebaseAdapter mMyAdapter;
     ArrayList<Food> mAdapterItems;
     ArrayList<String> mAdapterKeys;
     Query mQuery;
-    ProgressDialog progressDialog;
+    View mProgressBar;
 
 
     // create boolean for fetching data
     private boolean isViewShown = false;
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
 
-        super.setUserVisibleHint(isVisibleToUser);
-        Bundle bundle =  this.getArguments();
-        String fragName = bundle.getString("TAG");
-
-
-        if (getView() != null && fragName == "food_list_fragment") {
-            isViewShown = true;
-            progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setMessage("Loading ...");
-            progressDialog.show();
-        } else {
-            isViewShown = false;
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,6 +54,8 @@ public class MyFoodsFragment extends Fragment {
 
         mFoodReference = ((MainActivity ) this.getActivity()).mRootRef.child("foods");
         rootView2 = inflater.inflate(R.layout.my_foods_fragment, container, false);
+        mProgressBar = rootView2.findViewById(R.id.progressBar);
+
 
         handleInstanceState(savedInstanceState);
 
@@ -90,8 +75,7 @@ public class MyFoodsFragment extends Fragment {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                progressDialog.dismiss();
-
+                mProgressBar.setVisibility(View.GONE); //Remove progress bar when data has been fully downloaded
             }
 
             @Override
@@ -100,9 +84,7 @@ public class MyFoodsFragment extends Fragment {
             }
         });
 
-//        Firebase.setAndroidContext(this);
-//        String firebaseLocation = getResources().getString(R.string.firebase_location);
-//        mQuery = new Firebase(firebaseLocation);
+
     }
     private void handleInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState != null &&
