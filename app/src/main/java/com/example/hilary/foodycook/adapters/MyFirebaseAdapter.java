@@ -1,6 +1,8 @@
 package com.example.hilary.foodycook.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,14 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hilary.foodycook.Food;
+import com.example.hilary.foodycook.FoodDetailActivity;
 import com.example.hilary.foodycook.R;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -26,11 +32,16 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by hilary on 3/31/17.
  */
 
-public class MyFirebaseAdapter extends FirebaseRecyclerAdapter<MyFirebaseAdapter.ViewHolder, Food> {
+public class MyFirebaseAdapter extends FirebaseRecyclerAdapter<MyFirebaseAdapter.ViewHolder, Food>  {
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     StorageReference imageReference;
     Context context;
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    ArrayList<Food> mItems;
+    ArrayList<String> mKeys;
+    Context mContext;
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
         TextView description;
@@ -43,18 +54,45 @@ public class MyFirebaseAdapter extends FirebaseRecyclerAdapter<MyFirebaseAdapter
             description = (TextView) view.findViewById(R.id.description);
             price = (TextView) view.findViewById(R.id.price);
             foodImage = (ImageView) view.findViewById(R.id.foodImage);
+            mContext = context;
+            view.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    int itemPosition = getPosition();
+
+                    Food food = mItems.get(itemPosition);
+                    String key = mKeys.get(itemPosition);
+                    Intent intent = new Intent(v.getContext(), FoodDetailActivity.class);
+
+                    intent.putExtra("position", itemPosition + "");
+                    intent.putExtra("food", Parcels.wrap(food));
+                    intent.putExtra("key", key);
+
+                    v.getContext().startActivity(intent);
+
+
+                }
+            });
+
         }
+
     }
 
     public MyFirebaseAdapter(Query query, Class<Food> foodClass, @Nullable ArrayList<Food> items,
                              @Nullable ArrayList<String> keys, Context context) {
         super(query, items, keys);
         this.context = context;
+        mItems=items;
+        mKeys=keys;
+
     }
 
     @Override public MyFirebaseAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.food_list_item, parent, false);
+
 
         return new ViewHolder(view);
     }
@@ -71,7 +109,10 @@ public class MyFirebaseAdapter extends FirebaseRecyclerAdapter<MyFirebaseAdapter
                 .using(new FirebaseImageLoader())
                 .load(imageReference)
                 .into(holder.foodImage);
+
+
     }
+
 
     @Override protected void itemAdded(Food item, String key, int position) {
         Log.d("MyAdapter", "Added a new item to the adapter.");

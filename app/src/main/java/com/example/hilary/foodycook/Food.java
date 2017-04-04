@@ -2,10 +2,13 @@ package com.example.hilary.foodycook;
 
 import com.google.firebase.database.DatabaseReference;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+
 /**
  * Created by hilary on 3/28/17.
  */
-
+@Parcel
 public class Food {
     String title;
     String description;
@@ -15,6 +18,7 @@ public class Food {
     public Food(){
 
     }
+    @ParcelConstructor
     public Food(String title, String description, int price, String imageUrl){
         this.title = title;
         this.description =  description;

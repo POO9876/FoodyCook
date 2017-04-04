@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,16 +36,17 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseReference mRootRef;
-    ProgressDialog progressDialog;
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    progressDialog = new ProgressDialog(this);
+    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     mRootRef = FirebaseDatabase.getInstance().getReference();
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    toolbar.setTitle("Foody Cook");
     setSupportActionBar(toolbar);
+
 
     TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
     tabLayout.addTab(tabLayout.newTab().setText("Post Food"));

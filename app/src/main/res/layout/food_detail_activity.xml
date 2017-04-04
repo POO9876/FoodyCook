@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Title"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/detailTitle"/>
+    <ImageView
+        android:id="@+id/foodDetailImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        app:srcCompat="@mipmap/ic_launcher" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/foodDetailImage"
+        android:layout_alignParentRight="true"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginRight="20dp"
+        android:text="buy"
+        android:id="@+id/buyButton"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingsLabel"
+        android:layout_below="@+id/foodDetailImage"
+        android:text="ratings"
+        android:layout_centerHorizontal="true"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/requestReceipe"
+        android:layout_below="@+id/foodDetailImage"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginLeft="20dp"
+        android:text="get recipe"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/requestReceipe"
+        android:text="@string/long_description"
+        android:layout_margin="20dp"
+        android:id="@+id/longDescription"/>
+</RelativeLayout>
