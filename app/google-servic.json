@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "12691391191-hruc552ugundakbir8lri9kmijnl31c7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.hilary.foody",
-            "certificate_hash": "350aaf0f9185140068a657e1a74c2c71240df33b"
-          }
-        },
-        {
           "client_id": "12691391191-ofc093jls8bmnf2fte984fhe4eap4ub0.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "12691391191-ofc093jls8bmnf2fte984fhe4eap4ub0.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
@@ -59,14 +46,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "12691391191-rjkhkm43nr1hdmdc34gug4smb3gkc3db.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.hilary.foodycook",
-            "certificate_hash": "350aaf0f9185140068a657e1a74c2c71240df33b"
-          }
-        },
-        {
           "client_id": "12691391191-ofc093jls8bmnf2fte984fhe4eap4ub0.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -81,13 +60,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "12691391191-ofc093jls8bmnf2fte984fhe4eap4ub0.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
