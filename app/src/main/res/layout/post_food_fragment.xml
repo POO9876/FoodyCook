@@ -4,25 +4,25 @@
     <ImageView
         android:id="@+id/imageview"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
+        android:layout_height="130dp"
+
         />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/foodForm"
-        android:layout_below="@+id/imageview"
-        android:layout_centerHorizontal="true">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/foodForm"-->
+        <!--android:layout_below="@+id/imageview"-->
+        <!--android:layout_centerHorizontal="true">-->
 
         <Button
             android:id="@+id/photoImage"
-            android:layout_alignParentTop="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/imageview"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="take photo" />
         <TextView
             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/titleLabel"
             android:layout_below="@+id/price"
-            android:text="TItle"
+            android:text="Title"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"/>
         <EditText
@@ -69,18 +69,15 @@
             android:layout_below="@+id/descriptionLabel"
             android:hint="e.g Lorem Ipsum"
             android:layout_centerHorizontal="true"/>
-
-
-    </RelativeLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/postButton"
-        android:text="post food"
-        android:layout_below="@+id/foodForm"
-
-
-        android:layout_centerHorizontal="true"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/postButton"
+            android:text="post food"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:layout_below="@+id/imageview"/>
+    <!--</RelativeLayout>-->
 
 
 </RelativeLayout>

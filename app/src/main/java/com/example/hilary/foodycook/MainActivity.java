@@ -36,6 +36,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseReference mRootRef;
+    ViewPager viewPager;
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ protected void onCreate(Bundle savedInstanceState) {
     mRootRef = FirebaseDatabase.getInstance().getReference();
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.setTitle("Foody Cook");
+
     setSupportActionBar(toolbar);
 
 
@@ -54,7 +56,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
     tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-    final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+    viewPager = (ViewPager) findViewById(R.id.pager);
     final PagerAdapter adapter = new PagerAdapter
             (getSupportFragmentManager(), tabLayout.getTabCount());
     viewPager.setAdapter(adapter);

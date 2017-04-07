@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,10 +56,12 @@ public class PostFoodFragment extends Fragment{
     MainActivity mainActivity;
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     ProgressDialog progressDialog;
+    ViewPager viewPager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mainActivity = (MainActivity) getActivity();
         mFoodReference = mainActivity.mRootRef.child("foods");
+        viewPager = mainActivity.viewPager;
 
         rootView = inflater.inflate(R.layout.post_food_fragment, container, false);
 
@@ -80,7 +83,11 @@ public class PostFoodFragment extends Fragment{
         postItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postFoodItem();
+                uploadImage();
+                Toast.makeText(getContext(), "cooking posted succesfully", Toast.LENGTH_SHORT).show();
+                viewPager.setCurrentItem(1);
+
+
             }
         });
         return rootView;
@@ -127,33 +134,14 @@ public class PostFoodFragment extends Fragment{
 
             chakulaImage.setImageBitmap(bMap);
 
+            photoButton.setVisibility(View.GONE);
+            postItem.setVisibility(View.VISIBLE);
+
         }
 
     }
 
-    public void postFoodItem(){
-        String foodTitle;
-        String foodDesc;
-        int foodPrice;
-        DatabaseReference reference;
-        String imageUrl;
-        imageUrl = uploadImage();
-        foodPrice = Integer.parseInt(price.getText().toString());
-        foodTitle = title.getText().toString();
-        foodDesc = description.getText().toString();
 
-        Food food = new Food(foodTitle, foodDesc, foodPrice, imageUrl);
-
-       // mConditionReference.child("one").setValue(food);
-
-        reference = mFoodReference.push();
-        reference.setValue(food);
-
-        //Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-
-        //encodeBitmapAndSaveToFirebase(bitmap, reference);
-
-    }
     public void encodeBitmapAndSaveToFirebase(Bitmap bitmap, DatabaseReference reference) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -164,9 +152,9 @@ public class PostFoodFragment extends Fragment{
 
     }
 
-    public String uploadImage(){
+    public void uploadImage(){
 
-        String fileName = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
+        final String fileName = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
         StorageReference imageRef = storageReference.child("foodImages/"+fileName);
         if(file.exists()){
             Uri uriFile = Uri.fromFile(file);
@@ -175,6 +163,7 @@ public class PostFoodFragment extends Fragment{
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Toast.makeText(getActivity(), "image uploaded", Toast.LENGTH_SHORT).show();
+                            postFoodItem(fileName);
 
                         }
                     })
@@ -188,7 +177,30 @@ public class PostFoodFragment extends Fragment{
                         }
                     });
         }
-        return fileName;
+
+    }
+    public void postFoodItem(String imageFileName){
+        String foodTitle;
+        String foodDesc;
+        int foodPrice;
+        DatabaseReference reference;
+        String imageUrl;
+        imageUrl = imageFileName;
+        foodPrice = Integer.parseInt(price.getText().toString());
+        foodTitle = title.getText().toString();
+        foodDesc = description.getText().toString();
+
+        Food food = new Food(foodTitle, foodDesc, foodPrice, imageUrl);
+
+        // mConditionReference.child("one").setValue(food);
+
+        reference = mFoodReference.push();
+        reference.setValue(food);
+
+        //Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+        //encodeBitmapAndSaveToFirebase(bitmap, reference);
+
     }
 }
 
