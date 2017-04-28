@@ -75,8 +75,7 @@
             android:id="@+id/postButton"
             android:text="post food"
             android:layout_centerHorizontal="true"
-            android:visibility="gone"
-            android:layout_below="@+id/imageview"/>
+            android:layout_below="@+id/description"/>
     <!--</RelativeLayout>-->
 
 
