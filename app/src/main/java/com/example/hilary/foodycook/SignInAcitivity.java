@@ -32,7 +32,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class SignInAcitivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     GoogleApiClient mGoogleApiClient;
-    TextView mStatusTextView;
+
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "GoogleActivity";
 
@@ -43,28 +43,27 @@ public class SignInAcitivity extends AppCompatActivity implements GoogleApiClien
     // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
     // [END declare_auth_listener]
-    View mSignInProgressDialogue;
+
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         // Views
-        mStatusTextView = (TextView) findViewById(R.id.status);
-        mSignInProgressDialogue = findViewById(R.id.sign_in_progress);
+
 
         // Set the dimensions of the sign-in button.
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.disconnect_button).setOnClickListener(this);
+
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("AIzaSyC9ClUnI-Relbvbwyozx6biiXqAWTO58wk")
+                .requestIdToken(getString(R.string.web_client_id))
                 .requestEmail()
                 .build();
         // Build a GoogleApiClient with access to the Google Sign-In API and the
@@ -83,12 +82,19 @@ public class SignInAcitivity extends AppCompatActivity implements GoogleApiClien
 
 
     private void signIn() {
+
+        progressDialog = new ProgressDialog(SignInAcitivity.this, R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Authenticating...");
+        progressDialog.show();
+
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d("successResult", "handleSignInResult:" + result.isSuccess());
+       progressDialog.dismiss();
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
 
@@ -123,28 +129,13 @@ public class SignInAcitivity extends AppCompatActivity implements GoogleApiClien
     // [END signOut]
     private void updateUI(boolean signedIn) {
         if (signedIn) {
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-        } else {
-            mStatusTextView.setText(R.string.signed_out);
 
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+        } else {
+
+            Toast.makeText(this, "there seems to be a problem", Toast.LENGTH_LONG).show();
         }
     }
-    // [START revokeAccess]
-    private void revokeAccess() {
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        updateUI(false);
-                        // [END_EXCLUDE]
-                    }
-                });
-    }
-    // [END revokeAccess]
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -157,10 +148,7 @@ public class SignInAcitivity extends AppCompatActivity implements GoogleApiClien
     }
     // [START auth_with_google]
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-        // [START_EXCLUDE silent]
-        showProgressDialog();
-        // [END_EXCLUDE]
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getFamilyName());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -177,21 +165,11 @@ public class SignInAcitivity extends AppCompatActivity implements GoogleApiClien
                             Toast.makeText(SignInAcitivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        // [START_EXCLUDE]
-                        hideProgressDialog();
-                        // [END_EXCLUDE]
+
                     }
                 });
     }
-    // [END auth_with_google]
-    public void showProgressDialog(){
-        mSignInProgressDialogue.setVisibility(View.VISIBLE);
 
-    }
-    public void hideProgressDialog(){
-        mSignInProgressDialogue.setVisibility(View.GONE);
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -199,13 +177,7 @@ public class SignInAcitivity extends AppCompatActivity implements GoogleApiClien
             case R.id.sign_in_button:
                 signIn();
                 break;
-            // ...
-            case R.id.sign_out_button:
-                signOut();
-                break;
-            case R.id.disconnect_button:
-                revokeAccess();
-                break;
+
         }
 
     }

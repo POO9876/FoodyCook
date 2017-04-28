@@ -1,13 +1,10 @@
 <resources>
     <string name="app_name">FoodyCook</string>
     <string name="long_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dignissim euismod vehicula. Aliquam in purus cursus, scelerisque neque id, finibus nisi. Aliquam sed sapien scelerisque, maximus quam eget, porttitor dolor. Donec id viverra tellus. Duis mollis congue nulla, sit amet accumsan eros mattis eget. Duis dictum metus libero, id pellentesque lacus tempus sed. Maecenas sapien odio, egestas ac molestie eget, malesuada quis velit. Ut felis elit, finibus sit amet </string>
-    <string name="title_text">Google Sign-In\nQuickstart</string>
+
 
     <!-- Sign-in status messages -->
     <string name="signed_in_fmt">Signed in as: %s</string>
     <string name="signed_in">Signed in</string>
-    <string name="signing_in">Signing in…</string>
-    <string name="signed_out">Signed out</string>
-    <string name="sign_out">Sign Out</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="web_client_id">12691391191-5djdcf80ddvk1dfjkr5th7esi5i5g1ml.apps.googleusercontent.com</string>
 </resources>
